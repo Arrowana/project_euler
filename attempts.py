@@ -1,3 +1,5 @@
+import math
+import time
 
 def problem_75_brute_force():
     """Given that L is the length of the wire, for how many values of L <= 1,500,000 can exactly one integer sided right angle triangle be formed? """
@@ -98,5 +100,87 @@ def problem_75_dichotomy():
 
     print right_triangles
        
+def problem_75_polynome():
+    def solve_triangle(c, L):
+        # b**2 + (c-L)*b + L(L/2-c)=0
+        # obviously if L%2 != 0 we have no solution
+        # because the square of an odd number is odd
+        delta = (c-L)**2 - 2*L*(L-2*c)
+        
+        if delta == 0:
+            sol = (L-c)/2.0
+            return [sol]
+        elif delta > 0:
+            delta_sqrt = math.sqrt(delta)
+            sol1 = ((L-c)+delta_sqrt)/2.0
+            sol2 = ((L-c)-delta_sqrt)/2.0
+            return [sol1, sol2]
+        else:
+            return []
+
+    formed_one_right_only = 0
+    two_solutions_list = []
+    start = time.time()
+
+    for L in range(12, 15*10**5+1):
+        #Sol found for this length
+        first_sol = False
+        two_solutions = False
+
+        #Only even length have solutions
+        if L%2 != 0:
+            continue
+        
+        #Check if the solution is a multiple of a solution previously encountered
+        for previous_multi_sol in two_solutions_list:
+            if L % previous_multi_sol == 0:
+                #print "found previously"
+                continue
+        
+        #L/3+1 min possible of c
+        #If we had the condition to get delta posivive we get
+        #c > (math.sqrt(8)/2.0-1)*L
+        for c in range(int((math.sqrt(8)/2.0-1)*L)+1, L-1):
+            sols = solve_triangle(c,L)
+            for sol in sols:
+                if (sol).is_integer():
+                    b = int(sol) 
+                    a = L-b-c
+                    if b-a > 0 and a > 0 and sol > 1 and sol < c:
+                        #print "L:", L
+                        #print "sol found", "a:", L-b-c, "b:", b, "c:", c
+                        if first_sol:
+                            two_solutions = True
+                            break
+                        else:
+                            first_sol = True
+
+            #Stop iterating c because we have at least two solutions
+            if two_solutions:
+                break            
+                
+        #If L divisible by 100 we print L to track progress
+        if L % 1000 == 0:
+            print "L:", L
+            print formed_one_right_only
+            now = time.time()
+            print now - start
+            start = now
+
+        if two_solutions:
+            two_solutions_list.append(L)
+            continue
+        elif first_sol:
+            #print L
+            formed_one_right_only += 1
+            #print "one sol only"
+
+    print formed_one_right_only 
+               
+
 def problem_75():
-    problem_75_dichotomy()
+    problem_75_polynome()
+
+if __name__ == '__main__':
+    problem_75()
+
