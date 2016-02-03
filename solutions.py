@@ -51,8 +51,38 @@ def problem_36():
 
     return sum([i if is_palindrome(i) and is_bin_palindrome(i) else 0 for i in range(1*10**6)])
 
+def problem_62():
+    """Find smallest cube for which exactly five permutations of its digits are cube"""
+    def identify(number):
+        return "".join(sorted(str(number)))
+
+    cubes = [['1', 1]]
+    
+    for i in range(2, 10000):
+        identity = identify(i**3)
+        matched = False 
+        found = False
+
+        for group in cubes:
+            if group[0] == identity:
+                group.append(i)
+                matched = True
+                if len(group) == 6:
+                    found = True
+                    print i
+                    winner = group
+                break
+        
+        if matched == False:
+            cubes.append([identity, i])
+        
+        if found:
+            break
+
+    print winner
+    return (winner[1])**3
 if __name__ == '__main__':
-    implemented = [1,2,4,25,36]
+    implemented = [1,2,4,25,36,62]
 
     for i in implemented:
         func = locals()["problem_"+str(i)]

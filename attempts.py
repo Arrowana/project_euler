@@ -177,10 +177,37 @@ def problem_75_polynome():
 
     print formed_one_right_only 
                
+def problem_62():
+    """Find smallest cube for which exactly five permutations of its digits are cube"""
+    def identify(number):
+        return "".join(sorted(str(number)))
 
-def problem_75():
-    problem_75_polynome()
+    cubes = [['1', 1]]
+    
+    for i in range(2, 10000):
+        identity = identify(i**3)
+        matched = False 
+        found = False
+
+        for group in cubes:
+            if group[0] == identity:
+                group.append(i)
+                matched = True
+                if len(group) == 6:
+                    found = True
+                    print i
+                    winner = group
+                break
+        
+        if matched == False:
+            cubes.append([identity, i])
+        
+        if found:
+            break
+
+    print winner
+    return (winner[1])**3
 
 if __name__ == '__main__':
-    problem_75()
+    print problem_62()
 
