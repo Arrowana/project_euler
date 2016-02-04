@@ -177,37 +177,42 @@ def problem_75_polynome():
 
     print formed_one_right_only 
                
-def problem_62():
-    """Find smallest cube for which exactly five permutations of its digits are cube"""
-    def identify(number):
-        return "".join(sorted(str(number)))
+def problem_112():
+    """Bouncy numbers"""
+    def bounciness(number):
+        digits = [int(nb_str) for nb_str in str(number)] 
+        digits.append(digits[-1])
+        digit_p = digits[0] 
+        delta_p = 0
+        bounced = -1
 
-    cubes = [['1', 1]]
-    
-    for i in range(2, 10000):
-        identity = identify(i**3)
-        matched = False 
-        found = False
+        for i, digit in enumerate(digits):
+            delta = digit-digit_p
 
-        for group in cubes:
-            if group[0] == identity:
-                group.append(i)
-                matched = True
-                if len(group) == 6:
-                    found = True
-                    print i
-                    winner = group
+            if delta*delta_p < 0:
+                #Bounciness detected return index
+                bounced = i    
                 break
-        
-        if matched == False:
-            cubes.append([identity, i])
-        
-        if found:
-            break
+                
+            delta_p = delta 
+            digit_p = digit
 
-    print winner
-    return (winner[1])**3
+        return bounced
+
+    bouncy_nbs = 0
+
+    for i in range(100, 548):
+        print i, bounciness(i)
+
+        if bounciness(i) > 0:
+            #All other number starting with this bouncy sequence are bouncy too
+            bouncy_nbs+=1
+            perc = 100.0*bouncy_nbs/i 
+            print perc
+            if perc >= 99.0:
+                break
+            
 
 if __name__ == '__main__':
-    print problem_62()
+    print problem_112()
 
