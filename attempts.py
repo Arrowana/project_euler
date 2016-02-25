@@ -212,7 +212,40 @@ def problem_112():
             if perc >= 99.0:
                 break
             
+def problem_206():
+    lower = int(math.sqrt(1020304050607080900))
+    upper = int(math.sqrt(1929394959697989990))
+
+    def match_pattern(number):
+        number_str = str(number)
+        selected_digits = [int(number_str[i]) for i in range(0, len(number_str), 2)]
+
+        for i, digit in zip(range(1, len(selected_digits))+ [0], selected_digits):
+            if i == int(digit):
+                continue
+            else:
+                return False
+
+        return True
+
+    lower_square = lower**2
+    square_last = lower_square
+
+    i = 0
+    while i < upper-lower:
+        i+=1
+ 
+        square = square_last + 2*(lower)+1
+        print square
+
+        if i % 10 != 0:
+            continue
+        if match_pattern(square):
+            print "found"
+            break
+
+        square_last = square
 
 if __name__ == '__main__':
-    print problem_112()
+    print problem_206()
 
