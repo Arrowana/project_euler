@@ -246,6 +246,35 @@ def problem_206():
 
         square_last = square
 
+def problem_XX():
+    def p(nb):
+        stop = nb/2
+        prime = True
+        for k in range(2, stop):
+            if nb % k == 0:
+                print "divisible by", k
+                prime = False
+                break
+        return prime
+
+    def b(nb):
+        k=2
+        while k < nb/2:
+            if nb % k == 0:
+                if p(k):
+                    print "biggest prime divisor", k
+                else:
+                    print "not", k
+            if k % 100 == 0:
+                print k
+
+            k+=2
+
+        return k
+                
+    #Target 600851475143
+    print b(600851475143)
+
 if __name__ == '__main__':
     print problem_206()
 

@@ -35,6 +35,23 @@ def problem_4():
 
     return biggest
 
+def problem_5():
+    """What is the smallest positive number that is evenly divisible by all of the numbers 
+        from 1 to 20?"""
+    nb = 2510
+    hero = False
+
+    while not hero:
+        nb+=1
+        for i in range(1, 20):
+            if nb % i == 0:
+                hero = True
+            else:
+                hero = False
+                break
+    return nb
+
+
 def problem_25():
     """Find the first Fibonacci term with 1000 digits"""
     fib_sequence = [1,1,2]        
@@ -50,6 +67,10 @@ def problem_36():
         return (bin(number)[2:] == bin(number)[2:][::-1])
 
     return sum([i if is_palindrome(i) and is_bin_palindrome(i) else 0 for i in range(1*10**6)])
+
+def problem_48():
+    s=sum(x**x for x in range(1, 1000))
+    return str(s)[-10:]
 
 def problem_62():
     """Find smallest cube for which exactly five permutations of its digits are cube"""
